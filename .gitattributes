@@ -1,9 +1,1 @@
-# Hide frontend files from GitHub language stats
-*.html linguist-vendored
-*.erb linguist-vendored
-*.css linguist-vendored
-*.js linguist-vendored
-
-# Hide other non-core files
-Dockerfile linguist-vendored
-*.sh linguist-vendored
+*.erb linguist-language=Ruby
