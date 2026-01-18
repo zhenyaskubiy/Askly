@@ -1,0 +1,28 @@
+body{
+    background-color: #03071e;
+    display: flex;
+    justify-content: center;
+}
+.wrapper{
+    width: 100%;
+    max-width: 800px;
+    margin: 40px;
+
+}
+.conteiner{
+    background-color: #fff;
+}
+.conteiner, .navbar{
+    padding: 20px;
+}
+.navbar{
+    background-color: #370617;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.navbar a{
+    color: white;
+    text-decoration: none;
+}

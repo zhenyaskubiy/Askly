@@ -1,0 +1,39 @@
+.button{
+    color: #fff;
+    border: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 120ms ease, transform 120ms ease;
+}
+
+.button-main{
+    background-color: #d65003; 
+}
+.button-yellow{
+    background-color: #c701dd; 
+    color: #000;
+}
+.button:hover{
+    filter: brightness(0.95);
+    transform: translateY(-1px);
+}
+
+.button:active{
+    transform: translateY(0);
+}
+
+.button:focus{
+    outline: 3px solid rgba(3,102,214,0.18);
+    outline-offset: 2px;
+}
+
+.actions-row .button + .button{
+    margin-left: 10px;
+}

@@ -1,0 +1,18 @@
+<div class="conteiner">
+
+    <h2 class="title">Log In</h2>
+
+    <p class="mt">Please enter your nickname to log in</p>
+
+    <div class="mt">
+        <%= form_with scope: :session, url: session_path, data: { turbo: false } do |form|%>
+            <p><%= form.label :email%></p>
+            <p><%= form.text_field :email, class: "form-text-field"%></p>
+
+            <p class="mt"><%= form.label :password%></p>
+            <p><%= form.password_field :password, class: "form-text-field"%></p>
+
+            <p class="mt-lg"><%= form.submit "Log In", class: "button button-main"%></p>
+        <%end%>
+    </div>
+</div>
