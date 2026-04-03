@@ -1,11 +1,9 @@
 class User < ApplicationRecord
   has_secure_password
 
-  before_save :downcase_nicknaame
+  has_many :questions, dependent: :destroy
 
   validates :email, presence: true, uniqueness: true
-
-  def downcase_nicknaame
-    nickname.downcase!
-  end
+  validates :nickname, presence: true, uniqueness: true
+  validates :name, presence: true
 end
