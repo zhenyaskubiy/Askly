@@ -11,38 +11,86 @@
 
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
-    <div class = "wrapper">
-      <div class="navbar">
-        <p class="title-sm text-bold"><%= link_to "Askly", root_path%></p>
-        <div>
-          <% if current_user.present?%>
-            <%= content_tag :span, "@#{current_user.nickname}", class: "mr-sm" %>
-            <%= button_to "Sign out", session_path, method: :delete, class: "button button-yellow"%>
-          <%else%>
-            <%= link_to "Sign up", new_user_path, class: "button button-yellow mr-sm"%>
-            <%= link_to "Sign in", new_session_path, class: "button button-yellow mr-sm"%>
-          <%end%>
+    <header class="topbar">
+      <div class="topbar-brand">
+        <%= link_to root_path, class: "brand-link" do %>
+          <span class="brand-icon">
+            <%= fa_icon "bolt" %>
+          </span>
+          <span class="brand-name">Askly</span>
+        <% end %>
+      </div>
+
+      <div class="topbar-search">
+        <%= fa_icon "search", class: "search-icon" %>
+        <input type="text" placeholder="Search questions, tags, or topics..." class="search-input" />
+      </div>
+
+      <div class="topbar-auth">
+        <% if current_user.present? %>
+          <span class="current-user-nick">@<%= current_user.nickname %></span>
+          <%= button_to "Sign out", session_path, method: :delete, class: "btn-signout" %>
+        <% else %>
+          <%= link_to "Sign In", new_session_path, class: "btn-signin" %>
+          <%= link_to "Sign Up", new_user_path, class: "btn-signup" %>
+        <% end %>
+        <div class="topbar-avatar">
+          <% if current_user.present? %>
+            <span style="background-color: <%= avatar_bg(current_user) %>"><%= user_initials(current_user) %></span>
+          <% else %>
+            <%= fa_icon "user-circle", class: "guest-avatar" %>
+          <% end %>
         </div>
       </div>
-      <% if flash[:notice].present? %>
-        <p class="mb mt message message-notice"><%= flash[:notice] %></p>
-      <% elsif flash[:alert].present? %>
-        <p class="mb mt message message-error"><%= flash[:alert] %></p>
-      <% end %>
-      <%= yield %>
+    </header>
+
+    <div class="app-layout">
+      <aside class="sidebar">
+        <%= link_to root_path, class: "nav-item #{current_page?(root_path) ? 'active' : ''}" do %>
+          <%= fa_icon "home" %>
+          <span>Home</span>
+        <% end %>
+        <%= link_to "#", class: "nav-item" do %>
+          <%= fa_icon "line-chart" %>
+          <span>Trending</span>
+        <% end %>
+        <%= link_to "#", class: "nav-item" do %>
+          <%= fa_icon "th" %>
+          <span>Categories</span>
+        <% end %>
+        <% if current_user.present? %>
+          <%= link_to "#", class: "nav-item" do %>
+            <%= fa_icon "user" %>
+            <span>Profile</span>
+          <% end %>
+        <% else %>
+          <%= link_to new_session_path, class: "nav-item" do %>
+            <%= fa_icon "user" %>
+            <span>Profile</span>
+          <% end %>
+        <% end %>
+      </aside>
+
+      <div class="main-wrapper">
+        <% if flash[:notice].present? %>
+          <div class="flash flash-notice"><%= flash[:notice] %></div>
+        <% elsif flash[:alert].present? %>
+          <div class="flash flash-alert"><%= flash[:alert] %></div>
+        <% end %>
+        <%= yield %>
+      </div>
     </div>
   </body>
 </html>

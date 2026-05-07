@@ -1,18 +1,25 @@
-<div class="conteiner">
+<div style="max-width: 420px; margin: 40px auto;">
+  <div class="card">
+    <h2 class="title-md" style="margin-bottom: 20px;">Sign In</h2>
 
-    <h2 class="title">Log In</h2>
+    <%= form_with scope: :session, url: session_path, data: { turbo: false } do |form| %>
+      <div class="form-group">
+        <%= form.label :email, "Email", class: "form-label" %>
+        <%= form.text_field :email, class: "form-input", placeholder: "you@example.com" %>
+      </div>
 
-    <p class="mt">Please enter your nickname to log in</p>
+      <div class="form-group">
+        <%= form.label :password, "Password", class: "form-label" %>
+        <%= form.password_field :password, class: "form-input", placeholder: "••••••••" %>
+      </div>
 
-    <div class="mt">
-        <%= form_with scope: :session, url: session_path, data: { turbo: false } do |form|%>
-            <p><%= form.label :email%></p>
-            <p><%= form.text_field :email, class: "form-text-field"%></p>
+      <div style="margin-top: 20px;">
+        <%= form.submit "Sign In", class: "btn-publish" %>
+      </div>
+    <% end %>
 
-            <p class="mt"><%= form.label :password%></p>
-            <p><%= form.password_field :password, class: "form-text-field"%></p>
-
-            <p class="mt-lg"><%= form.submit "Log In", class: "button button-main"%></p>
-        <%end%>
-    </div>
+    <p class="text-muted text-sm" style="margin-top:16px; text-align:center;">
+      Don't have an account? <%= link_to "Sign up", new_user_path %>
+    </p>
+  </div>
 </div>
