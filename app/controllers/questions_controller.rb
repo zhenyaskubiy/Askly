@@ -4,8 +4,16 @@ class QuestionsController < ApplicationController
   before_action :require_owner, only: %i[edit update destroy]
 
   def index
-    @questions = Question.all
+    @questions = Question.all.order(created_at: :desc).includes(:user)
     @question = Question.new
+    @trending_questions = @questions.first(3)
+    @top_contributors = User.joins(:questions)
+                            .group("users.id")
+                            .order("COUNT(questions.id) DESC")
+                            .limit(3)
+                            .select("users.*, COUNT(questions.id) as questions_count")
+    all_tags = @questions.flat_map(&:tags_list)
+    @popular_tags = all_tags.tally.sort_by { |_, v| -v }.first(6).map(&:first)
   end
 
   def show
@@ -45,7 +53,7 @@ class QuestionsController < ApplicationController
   private
 
   def question_params
-    params.require(:question).permit(:body)
+    params.require(:question).permit(:title, :body, :tags)
   end
 
   def set_question

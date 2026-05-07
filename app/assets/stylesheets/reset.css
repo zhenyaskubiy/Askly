@@ -1,12 +1,19 @@
-* {
-    margin: 0;
-    padding: 0;
-}   
-h1, h2, h3, h4, h5, h6{
-    font-size: 100%;
-    font-weight: normal;
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.button_to{
-    display: inline;
+h1, h2, h3, h4, h5, h6 {
+  font-size: 100%;
+  font-weight: normal;
+}
+
+.button_to {
+  display: inline;
+}
+
+input, textarea, button, select {
+  font-family: inherit;
+  font-size: inherit;
 }

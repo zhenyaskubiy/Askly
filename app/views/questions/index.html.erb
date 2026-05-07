@@ -1,22 +1,101 @@
-<div class="conteiner">
-    <p class="mt">
-        <%= link_to "Create New Question", new_question_path, class: "button button-main" %>
-    </p>
+<div class="home-grid">
 
-    <p class="mt">
+  <%# ── Left column: Create + feed ── %>
+  <div>
+    <div class="create-card">
+      <h2 class="create-card-title">Create New Question</h2>
+      <% if current_user.present? %>
         <%= render "form", question: @question %>
-    </p>
-</div>
-
-<div class="conteiner mt-sm">
-    <h2 class="title-lg">
-        <%= @questions.count %>
-        <%= inclination(@questions.count, "Question", "Questions", "Questions") %>
-    </h2>
-</div>
-
-<% @questions.each do |question| %>
-    <div class="conteiner mt-sm">
-        <%= render question %>
+      <% else %>
+        <p class="text-muted text-sm" style="text-align:center; padding: 16px 0;">
+          <%= link_to "Sign in", new_session_path %> or <%= link_to "sign up", new_user_path %> to ask a question.
+        </p>
+      <% end %>
     </div>
-<% end %>
+
+    <h2 class="feed-section-title">Trending Questions</h2>
+
+    <% if @questions.any? %>
+      <div class="questions-feed">
+        <% @questions.each do |question| %>
+          <%= render question %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="empty-state">No questions yet. Be the first to ask!</div>
+    <% end %>
+  </div>
+
+  <%# ── Center column: trending cards + feed ── %>
+  <div>
+    <h2 class="feed-section-title">Trending Questions</h2>
+
+    <% if @trending_questions.any? %>
+      <div class="trending-cards-row">
+        <% @trending_questions.each do |question| %>
+          <%= link_to question_path(question), style: "text-decoration:none;" do %>
+            <div class="trending-card">
+              <div class="trending-card-avatars">
+                <div class="avatar-circle" style="background-color: <%= avatar_bg(question.user) %>">
+                  <%= user_initials(question.user) %>
+                </div>
+              </div>
+              <p class="trending-card-title">
+                <%= question.title.presence || question.body.truncate(80) %>
+              </p>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if @questions.any? %>
+      <div class="questions-feed">
+        <% @questions.each do |question| %>
+          <%= render question %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="empty-state">No questions yet.</div>
+    <% end %>
+  </div>
+
+  <%# ── Right sidebar: tags + contributors ── %>
+  <aside class="home-sidebar">
+    <div class="sidebar-widget">
+      <h3 class="sidebar-widget-title">Popular Tags</h3>
+      <% if @popular_tags.any? %>
+        <div class="popular-tags">
+          <% @popular_tags.each do |tag| %>
+            <span class="tag-pill"
+                  style="color: <%= tag_color(tag) %>; border-color: <%= tag_color(tag) %>;">
+              #<%= tag %>
+            </span>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-muted text-sm">No tags yet.</p>
+      <% end %>
+    </div>
+
+    <div class="sidebar-widget">
+      <h3 class="sidebar-widget-title">Top Contributors</h3>
+      <% if @top_contributors.any? %>
+        <% @top_contributors.each do |user| %>
+          <div class="contributor-item">
+            <div class="contributor-avatar" style="background-color: <%= avatar_bg(user) %>">
+              <%= user_initials(user) %>
+            </div>
+            <div class="contributor-info">
+              <div class="contributor-name"><%= user.nickname %></div>
+              <div class="contributor-count"><%= user.questions_count %> questions</div>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <p class="text-muted text-sm">No contributors yet.</p>
+      <% end %>
+    </div>
+  </aside>
+
+</div>

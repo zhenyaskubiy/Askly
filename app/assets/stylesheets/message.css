@@ -1,12 +1,18 @@
-.message{
-    border: 1px solid #d0d0d0;
-    padding: 10px 15px;
+.message {
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  margin-bottom: 16px;
 }
-.message-notice{
-    background-color: #ffeec2;
-    border-color: #ffba08;
+
+.message-notice {
+  background: rgba(76, 175, 80, 0.15);
+  border: 1px solid rgba(76, 175, 80, 0.35);
+  color: #81c784;
 }
-.message-error{
-    background-color: #ffd6d6;
-    border-color: #ff0000;
+
+.message-error {
+  background: rgba(244, 67, 54, 0.15);
+  border: 1px solid rgba(244, 67, 54, 0.35);
+  color: #ef9a9a;
 }
